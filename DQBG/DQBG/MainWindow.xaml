@@ -5,8 +5,102 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DQBG"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="DQBG: DQ'S BATTLEGROUNDS" Height="800" Width="1200" Background="{DynamicResource DefaultBackColor}" Foreground="{DynamicResource DefaultForeColor}" FontSize="30" FontFamily="Meiryo" WindowState="Maximized" WindowStyle="None" Loaded="Window_Loaded">
+    <Window.DataContext>
+        <local:AppModel d:IsInDesignMode="True"/>
+    </Window.DataContext>
+    <Window.Resources>
+        <SolidColorBrush x:Key="DefaultBackColor" Color="#FF181818"/>
+        <SolidColorBrush x:Key="DefaultForeColor" Color="#FFE0E0E0"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:FuncConverter x:Key="ToVisibleOrHiddenConverter" ToFunc="{x:Static local:MainWindow.ToVisibleOrHidden}"/>
+        <local:FuncConverter x:Key="ToOpacityConverter" ToFunc="{x:Static local:MainWindow.ToOpacity}"/>
+        <local:OnewayFuncConverter x:Key="OnewayFuncConverter"/>
+        <Storyboard x:Key="SpellSB">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SpellLight" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <DiscreteDoubleKeyFrame KeyTime="00:00:00.0" Value="0.7"/>
+                <DiscreteDoubleKeyFrame KeyTime="00:00:00.1" Value="0.3"/>
+                <DiscreteDoubleKeyFrame KeyTime="00:00:00.2" Value="0.7"/>
+                <DiscreteDoubleKeyFrame KeyTime="00:00:00.3" Value="0.3"/>
+                <DiscreteDoubleKeyFrame KeyTime="00:00:00.4" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="AttackSB">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CharacterImage" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <DiscreteDoubleKeyFrame KeyTime="00:00:00.0" Value="1"/>
+                <DiscreteDoubleKeyFrame KeyTime="00:00:00.1" Value="0.6"/>
+                <DiscreteDoubleKeyFrame KeyTime="00:00:00.2" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="HitSB">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CharacterImage" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <DiscreteDoubleKeyFrame KeyTime="00:00:00.0" Value="1"/>
+                <DiscreteDoubleKeyFrame KeyTime="00:00:00.1" Value="0"/>
+                <DiscreteDoubleKeyFrame KeyTime="00:00:00.2" Value="1"/>
+                <DiscreteDoubleKeyFrame KeyTime="00:00:00.3" Value="0"/>
+                <DiscreteDoubleKeyFrame KeyTime="00:00:00.4" Value="1"/>
+                <DiscreteDoubleKeyFrame KeyTime="00:00:00.5" Value="0"/>
+                <DiscreteDoubleKeyFrame KeyTime="00:00:00.6" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="HitVisibilitySB">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CharacterImage" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00.0" Value="{x:Static Visibility.Visible}"/>
+                <DiscreteObjectKeyFrame KeyTime="00:00:00.1" Value="{x:Static Visibility.Hidden}"/>
+                <DiscreteObjectKeyFrame KeyTime="00:00:00.2" Value="{x:Static Visibility.Visible}"/>
+                <DiscreteObjectKeyFrame KeyTime="00:00:00.3" Value="{x:Static Visibility.Hidden}"/>
+                <DiscreteObjectKeyFrame KeyTime="00:00:00.4" Value="{x:Static Visibility.Visible}"/>
+                <DiscreteObjectKeyFrame KeyTime="00:00:00.5" Value="{x:Static Visibility.Hidden}"/>
+                <DiscreteObjectKeyFrame KeyTime="00:00:00.6" Value="{x:Static Visibility.Visible}"/>
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+        <ItemsPanelTemplate x:Key="HorizontalPanel">
+            <StackPanel Orientation="Horizontal"/>
+        </ItemsPanelTemplate>
+        <Style x:Key="DQBorderStyle" TargetType="{x:Type Border}">
+            <Setter Property="BorderBrush" Value="{DynamicResource DefaultForeColor}"/>
+            <Setter Property="BorderThickness" Value="5"/>
+            <Setter Property="CornerRadius" Value="10,10,10,10"/>
+            <Setter Property="Padding" Value="24,16,24,16"/>
+        </Style>
+        <DataTemplate x:Key="CharacterTemplate">
+            <Border x:Name="CharacterBorder" Style="{DynamicResource DQBorderStyle}" Margin="30,50,0,0" BorderBrush="{Binding Status.Value, Converter={StaticResource OnewayFuncConverter}, ConverterParameter={x:Static local:MainWindow.ToStatusColor}}">
+                <StackPanel>
+                    <TextBlock Foreground="{Binding BorderBrush, ElementName=CharacterBorder}" Text="{Binding Name}"/>
+                    <TextBlock Foreground="{Binding BorderBrush, ElementName=CharacterBorder}" Text="{Binding HP.Value, StringFormat=ＨＰ：\{0\}, Converter={StaticResource OnewayFuncConverter}, ConverterParameter={x:Static local:MainWindow.ToHPString}}"/>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="CharacterImageTemplate">
+            <Image x:Name="CharacterImage" MaxWidth="200" MaxHeight="250" Source="{Binding IconFullPath}" d:Source="{Binding IconPath}" Visibility="{Binding IsAlive.Value, Converter={StaticResource OnewayFuncConverter}, ConverterParameter={x:Static local:MainWindow.ToVisibleOrHidden}}" VerticalAlignment="Bottom" Margin="8,0" Loaded="CharacterImage_Loaded"/>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
-
+        <Viewbox>
+            <Grid Height="800" Width="1200">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="180"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="296"/>
+                </Grid.RowDefinitions>
+                <ItemsControl ItemTemplate="{DynamicResource CharacterTemplate}" ItemsSource="{Binding Characters.Value}" ItemsPanel="{DynamicResource HorizontalPanel}"/>
+                <ItemsControl ItemTemplate="{DynamicResource CharacterImageTemplate}" ItemsSource="{Binding Characters.Value}" ItemsPanel="{DynamicResource HorizontalPanel}" Grid.Row="1" HorizontalAlignment="Center"/>
+                <Border Grid.Row="2" Style="{DynamicResource DQBorderStyle}" Margin="30,20,30,50">
+                    <TextBlock Text="{Binding Message.Value}"/>
+                </Border>
+                <Border x:Name="StartButton" Grid.Row="2" Width="70" Height="70" Style="{DynamicResource DQBorderStyle}" Background="{DynamicResource DefaultBackColor}" Margin="20,20,60,80" Padding="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Visibility="{Binding IsReady.Value, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBlock Text="▼" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <Rectangle x:Name="SpellLight" Fill="#FFEEEEEE" Opacity="0" IsHitTestVisible="False" Grid.RowSpan="3"/>
+            </Grid>
+        </Viewbox>
+        <StackPanel x:Name="MediaPanel">
+            <MediaElement x:Name="BgmMedia"/>
+            <MediaElement x:Name="OverMedia"/>
+            <MediaElement x:Name="AttackMedia"/>
+            <MediaElement x:Name="SpellMedia"/>
+            <MediaElement x:Name="ExhaleMedia"/>
+            <MediaElement x:Name="HitMedia"/>
+        </StackPanel>
     </Grid>
 </Window>
