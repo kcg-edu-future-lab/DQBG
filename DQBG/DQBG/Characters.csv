@@ -1,0 +1,7 @@
+Name, Icon, MaxHP, Attack, Defence, IsMagician, SkillDamage, SkillMessage
+メンフクロウ, menfukuro.png, 42, 42, 42, true, 14, バギを　となえた！
+ぬりかべ, nurikabe.png, 52, 40, 72, true, 18, ヒャダルコを　となえた！
+サーバル, serval.png, 47, 52, 43, false, 16, ひのたまを　はいた！
+スライム, slime.png, 56, 30, 35, true, 12, ギラを　となえた！
+ワイバーン, wyvern.png, 50, 55, 64, false, 19, ほのおを　はいた！
+ゆきおんな, yukionna.png, 48, 48, 48, false, 15, ふぶきを　はいた！
