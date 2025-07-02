@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:DQBG"
         mc:Ignorable="d"
         Title="DQBG: DQ'S BATTLEGROUNDS" Height="800" Width="1200" Background="{DynamicResource DefaultBackColor}" Foreground="{DynamicResource DefaultForeColor}" FontSize="30" FontFamily="Meiryo" WindowState="Maximized" WindowStyle="None" Loaded="Window_Loaded">
