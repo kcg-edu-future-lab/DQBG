@@ -144,7 +144,7 @@ namespace DQBG
 				.Subscribe(_ =>
 				{
 					PlayHit();
-					BeginAnimation("HitSB", f);
+					//BeginAnimation("HitSB", f);
 				});
 
 			f.Unloaded += (_, _) =>
