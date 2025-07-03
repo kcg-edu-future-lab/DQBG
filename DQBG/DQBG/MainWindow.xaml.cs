@@ -105,7 +105,7 @@ namespace DQBG
 				.Subscribe(_ =>
 				{
 					PlaySpell();
-					BeginAnimation("SpellSB");
+					//BeginAnimation("SpellSB");
 				});
 			model.ExhaleEvent
 				.ObserveOnUIDispatcher()

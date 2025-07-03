@@ -103,5 +103,12 @@
             <MediaElement x:Name="ExhaleMedia"/>
             <MediaElement x:Name="HitMedia"/>
         </StackPanel>
+        <StackPanel x:Name="ActionsPanel">
+            <b:Interaction.Triggers>
+                <local:ObservableTrigger Observable="{Binding SpellEvent}">
+                    <b:ControlStoryboardAction Storyboard="{StaticResource SpellSB}" ControlStoryboardOption="Play"/>
+                </local:ObservableTrigger>
+            </b:Interaction.Triggers>
+        </StackPanel>
     </Grid>
 </Window>
