@@ -14,8 +14,7 @@
         <SolidColorBrush x:Key="DefaultBackColor" Color="#FF181818"/>
         <SolidColorBrush x:Key="DefaultForeColor" Color="#FFE0E0E0"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <local:FuncConverter x:Key="ToVisibleOrHiddenConverter" ToFunc="{x:Static local:MainWindow.ToVisibleOrHidden}"/>
-        <local:FuncConverter x:Key="ToOpacityConverter" ToFunc="{x:Static local:MainWindow.ToOpacity}"/>
+        <local:FuncConverter x:Key="ToVisibleOrHiddenConverter" ToFunc="{x:Static local:ViewFuncs.ToVisibleOrHidden}"/>
         <local:OnewayFuncConverter x:Key="OnewayFuncConverter"/>
         <Storyboard x:Key="SpellSB">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SpellLight" Storyboard.TargetProperty="(UIElement.Opacity)">
@@ -36,15 +35,15 @@
             <Setter Property="Padding" Value="24,16,24,16"/>
         </Style>
         <DataTemplate x:Key="CharacterTemplate">
-            <Border x:Name="CharacterBorder" Style="{DynamicResource DQBorderStyle}" Margin="30,50,0,0" BorderBrush="{Binding Status.Value, Converter={StaticResource OnewayFuncConverter}, ConverterParameter={x:Static local:MainWindow.ToStatusColor}}">
+            <Border x:Name="CharacterBorder" Style="{DynamicResource DQBorderStyle}" Margin="30,50,0,0" BorderBrush="{Binding Status.Value, Converter={StaticResource OnewayFuncConverter}, ConverterParameter={x:Static local:ViewFuncs.ToStatusColor}}">
                 <StackPanel>
                     <TextBlock Foreground="{Binding BorderBrush, ElementName=CharacterBorder}" Text="{Binding Name}"/>
-                    <TextBlock Foreground="{Binding BorderBrush, ElementName=CharacterBorder}" Text="{Binding HP.Value, StringFormat=ＨＰ：\{0\}, Converter={StaticResource OnewayFuncConverter}, ConverterParameter={x:Static local:MainWindow.ToHPString}}"/>
+                    <TextBlock Foreground="{Binding BorderBrush, ElementName=CharacterBorder}" Text="{Binding HP.Value, StringFormat=ＨＰ：\{0\}, Converter={StaticResource OnewayFuncConverter}, ConverterParameter={x:Static local:ViewFuncs.ToHPString}}"/>
                 </StackPanel>
             </Border>
         </DataTemplate>
         <DataTemplate x:Key="CharacterImageTemplate">
-            <Image x:Name="CharacterImage" MaxWidth="200" MaxHeight="250" Source="{Binding IconFullPath}" d:Source="{Binding IconPath}" Visibility="{Binding IsAlive.Value, Converter={StaticResource OnewayFuncConverter}, ConverterParameter={x:Static local:MainWindow.ToVisibleOrHidden}}" VerticalAlignment="Bottom" Margin="8,0" Loaded="CharacterImage_Loaded">
+            <Image x:Name="CharacterImage" MaxWidth="200" MaxHeight="250" Source="{Binding IconFullPath}" d:Source="{Binding IconPath}" Visibility="{Binding IsAlive.Value, Converter={StaticResource OnewayFuncConverter}, ConverterParameter={x:Static local:ViewFuncs.ToVisibleOrHidden}}" VerticalAlignment="Bottom" Margin="8,0" Loaded="CharacterImage_Loaded">
                 <Image.Resources>
                     <Storyboard x:Key="AttackSB">
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CharacterImage" Storyboard.TargetProperty="(UIElement.Opacity)">

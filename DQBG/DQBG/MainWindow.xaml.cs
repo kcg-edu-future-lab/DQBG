@@ -18,11 +18,6 @@ namespace DQBG
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		public static readonly Func<bool, Visibility> ToVisibleOrHidden = b => b ? Visibility.Visible : Visibility.Hidden;
-		public static readonly Func<bool, double> ToOpacity = b => b ? 1.0 : 0.0;
-		public static readonly Func<int, string> ToHPString = hp => AppModel.ToFullString(hp).PadLeft(3, '　');
-		public static readonly Func<CharacterStatus, string> ToStatusColor = s => s == CharacterStatus.Dead ? "#CC3333" : s == CharacterStatus.Caution ? "#BB8800" : "#E0E0E0";
-
 		#region Sounds
 		const double DefaultVolume = 0.5;
 		const string BgmMP3Name = "Sounds/BGM.mp3";
