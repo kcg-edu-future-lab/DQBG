@@ -108,8 +108,6 @@ namespace DQBG
 				{
 					PlayExhale();
 				});
-
-			StartButton.MouseLeftButtonDown += (_, _) => Task.Run(model.Start);
 		}
 
 		void Window_Loaded(object sender, RoutedEventArgs e)

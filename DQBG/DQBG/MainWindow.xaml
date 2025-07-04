@@ -97,6 +97,11 @@
                     <TextBlock Text="{Binding Message.Value}"/>
                 </Border>
                 <Border x:Name="StartButton" Grid.Row="2" Width="70" Height="70" Style="{DynamicResource DQBorderStyle}" Background="{DynamicResource DefaultBackColor}" Margin="20,20,60,80" Padding="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Visibility="{Binding IsReady.Value, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="MouseLeftButtonDown">
+                            <local:InvokeMethodAction TargetObject="{Binding}" MethodName="Start" IsAsync="True"/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
                     <TextBlock Text="▼" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
                 <Rectangle x:Name="SpellLight" Fill="#FFEEEEEE" Opacity="0" IsHitTestVisible="False" Grid.RowSpan="3"/>
