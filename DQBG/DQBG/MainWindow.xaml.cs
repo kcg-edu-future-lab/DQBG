@@ -80,34 +80,6 @@ namespace DQBG
 		public MainWindow()
 		{
 			InitializeComponent();
-
-			model = (AppModel)DataContext;
-
-			model.StartedEvent
-				.ObserveOnUIDispatcher()
-				.Subscribe(_ =>
-				{
-					PlayBgm();
-				});
-			model.OverEvent
-				.ObserveOnUIDispatcher()
-				.Subscribe(_ =>
-				{
-					PlayOver();
-				});
-			model.SpellEvent
-				.ObserveOnUIDispatcher()
-				.Subscribe(_ =>
-				{
-					PlaySpell();
-					//BeginAnimation("SpellSB");
-				});
-			model.ExhaleEvent
-				.ObserveOnUIDispatcher()
-				.Subscribe(_ =>
-				{
-					PlayExhale();
-				});
 		}
 
 		void Window_Loaded(object sender, RoutedEventArgs e)

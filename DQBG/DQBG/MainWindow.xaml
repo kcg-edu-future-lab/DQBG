@@ -6,7 +6,7 @@
         xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:DQBG"
         mc:Ignorable="d"
-        Title="DQBG: DQ'S BATTLEGROUNDS" Height="800" Width="1200" Background="{DynamicResource DefaultBackColor}" Foreground="{DynamicResource DefaultForeColor}" FontSize="30" FontFamily="Meiryo" WindowState="Maximized" WindowStyle="None" Loaded="Window_Loaded">
+        Title="DQBG: DQ'S BATTLEGROUNDS" Height="800" Width="1200" Background="{DynamicResource DefaultBackColor}" Foreground="{DynamicResource DefaultForeColor}" FontSize="30" FontFamily="Meiryo" WindowState="Maximized" WindowStyle="None">
     <Window.DataContext>
         <local:AppModel d:IsInDesignMode="True"/>
     </Window.DataContext>
@@ -76,11 +76,15 @@
                     </Storyboard>
                 </Grid.Resources>
                 <b:Interaction.Triggers>
+                    <local:ObservableTrigger Observable="{Binding AttackEvent}">
+                        <local:ControlSoundAction Source="./Sounds/Attack.mp3"/>
+                    </local:ObservableTrigger>
                     <local:ObservableTrigger Observable="{Binding HitEvent}">
+                        <local:ControlSoundAction Source="./Sounds/Hit.mp3"/>
                         <b:ControlStoryboardAction Storyboard="{StaticResource HitSB}" ControlStoryboardOption="Play"/>
                     </local:ObservableTrigger>
                 </b:Interaction.Triggers>
-                <Image x:Name="CharacterImage" MaxWidth="200" MaxHeight="250" Source="{Binding IconFullPath}" d:Source="{Binding IconPath}" Visibility="{Binding IsAlive.Value, Converter={StaticResource OnewayFuncConverter}, ConverterParameter={x:Static local:ViewFuncs.ToVisibleOrHidden}}" VerticalAlignment="Bottom" Margin="8,0" Loaded="CharacterImage_Loaded"/>
+                <Image x:Name="CharacterImage" MaxWidth="200" MaxHeight="250" Source="{Binding IconFullPath}" d:Source="{Binding IconPath}" Visibility="{Binding IsAlive.Value, Converter={StaticResource OnewayFuncConverter}, ConverterParameter={x:Static local:ViewFuncs.ToVisibleOrHidden}}" VerticalAlignment="Bottom" Margin="8,0"/>
             </Grid>
         </DataTemplate>
     </Window.Resources>
@@ -118,8 +122,19 @@
         </StackPanel>
         <StackPanel x:Name="ActionsPanel">
             <b:Interaction.Triggers>
+                <local:ObservableTrigger Observable="{Binding StartedEvent}">
+                    <local:ControlSoundAction Source="./Sounds/BGM.mp3"/>
+                </local:ObservableTrigger>
+                <local:ObservableTrigger Observable="{Binding OverEvent}">
+                    <local:ControlSoundAction Source="./Sounds/BGM.mp3" ControlType="Stop"/>
+                    <local:ControlSoundAction Source="./Sounds/Over.mp3"/>
+                </local:ObservableTrigger>
                 <local:ObservableTrigger Observable="{Binding SpellEvent}">
+                    <local:ControlSoundAction Source="./Sounds/Spell.mp3"/>
                     <b:ControlStoryboardAction Storyboard="{StaticResource SpellSB}" ControlStoryboardOption="Play"/>
+                </local:ObservableTrigger>
+                <local:ObservableTrigger Observable="{Binding ExhaleEvent}">
+                    <local:ControlSoundAction Source="./Sounds/Exhale.mp3"/>
                 </local:ObservableTrigger>
             </b:Interaction.Triggers>
         </StackPanel>
