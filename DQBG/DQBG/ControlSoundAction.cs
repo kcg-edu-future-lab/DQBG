@@ -41,7 +41,8 @@ namespace DQBG
 			if (PlayerMap.ContainsKey(uri.OriginalString)) return;
 
 			var player = new MediaPlayer();
-			player.MediaEnded += (_, _) => player.Stop();
+			// この方法では雑音が出ます。
+			//player.MediaEnded += (_, _) => player.Stop();
 			player.Volume = 0;
 			player.Open(uri);
 			PlayerMap[uri.OriginalString] = player;
@@ -53,6 +54,7 @@ namespace DQBG
 			switch (ControlType)
 			{
 				case SoundControlType.Play:
+					player.Stop();
 					player.Volume = Volume;
 					player.Play();
 					break;
