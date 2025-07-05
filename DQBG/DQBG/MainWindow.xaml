@@ -43,8 +43,8 @@
             </Border>
         </DataTemplate>
         <DataTemplate x:Key="CharacterImageTemplate">
-            <Image x:Name="CharacterImage" MaxWidth="200" MaxHeight="250" Source="{Binding IconFullPath}" d:Source="{Binding IconPath}" Visibility="{Binding IsAlive.Value, Converter={StaticResource OnewayFuncConverter}, ConverterParameter={x:Static local:ViewFuncs.ToVisibleOrHidden}}" VerticalAlignment="Bottom" Margin="8,0" Loaded="CharacterImage_Loaded">
-                <Image.Resources>
+            <Grid>
+                <Grid.Resources>
                     <Storyboard x:Key="AttackSB">
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CharacterImage" Storyboard.TargetProperty="(UIElement.Opacity)">
                             <DiscreteDoubleKeyFrame KeyTime="00:00:00.0" Value="1"/>
@@ -74,13 +74,14 @@
                             <DiscreteObjectKeyFrame KeyTime="00:00:00.6" Value="{x:Static Visibility.Visible}"/>
                         </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
-                </Image.Resources>
+                </Grid.Resources>
                 <b:Interaction.Triggers>
                     <local:ObservableTrigger Observable="{Binding HitEvent}">
                         <b:ControlStoryboardAction Storyboard="{StaticResource HitSB}" ControlStoryboardOption="Play"/>
                     </local:ObservableTrigger>
                 </b:Interaction.Triggers>
-            </Image>
+                <Image x:Name="CharacterImage" MaxWidth="200" MaxHeight="250" Source="{Binding IconFullPath}" d:Source="{Binding IconPath}" Visibility="{Binding IsAlive.Value, Converter={StaticResource OnewayFuncConverter}, ConverterParameter={x:Static local:ViewFuncs.ToVisibleOrHidden}}" VerticalAlignment="Bottom" Margin="8,0" Loaded="CharacterImage_Loaded"/>
+            </Grid>
         </DataTemplate>
     </Window.Resources>
     <Grid>
