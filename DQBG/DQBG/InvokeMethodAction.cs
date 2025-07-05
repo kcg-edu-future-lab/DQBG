@@ -34,13 +34,13 @@ namespace DQBG
 
 		protected override void Invoke(object parameter)
 		{
-			var method = TargetObject?.GetType().GetMethod(MethodName);
+			// Copy objects for an async thread.
+			var target = TargetObject ?? AssociatedObject;
+			var associated = AssociatedObject;
+
+			var method = target?.GetType().GetMethod(MethodName);
 			if (method == null) return;
 			//if (method.ContainsGenericParameters) return;
-
-			// Copy objects for an async thread.
-			var target = TargetObject;
-			var associated = AssociatedObject;
 
 			if (IsAsync)
 				Task.Run(InvokeMethod);
