@@ -119,8 +119,7 @@
                         <b:CallMethodAction MethodName="Play"/>
                     </b:EventTrigger>
                     <b:EventTrigger EventName="MediaEnded">
-                        <b:CallMethodAction MethodName="Stop"/>
-                        <b:CallMethodAction MethodName="Play"/>
+                        <b:ChangePropertyAction PropertyName="Position" Value="0"/>
                     </b:EventTrigger>
                 </b:Interaction.Triggers>
             </MediaElement>
