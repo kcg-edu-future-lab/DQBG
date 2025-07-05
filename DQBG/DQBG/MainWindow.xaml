@@ -113,12 +113,17 @@
             </Grid>
         </Viewbox>
         <StackPanel x:Name="MediaPanel">
-            <MediaElement x:Name="BgmMedia"/>
-            <MediaElement x:Name="OverMedia"/>
-            <MediaElement x:Name="AttackMedia"/>
-            <MediaElement x:Name="SpellMedia"/>
-            <MediaElement x:Name="ExhaleMedia"/>
-            <MediaElement x:Name="HitMedia"/>
+            <MediaElement Source="./Sounds/BGM.mp3" Volume="0" LoadedBehavior="Manual">
+                <b:Interaction.Triggers>
+                    <b:EventTrigger EventName="Loaded">
+                        <local:InvokeMethodAction MethodName="Play"/>
+                    </b:EventTrigger>
+                    <b:EventTrigger EventName="MediaEnded">
+                        <local:InvokeMethodAction MethodName="Stop"/>
+                        <local:InvokeMethodAction MethodName="Play"/>
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>
+            </MediaElement>
         </StackPanel>
         <StackPanel x:Name="ActionsPanel">
             <b:Interaction.Triggers>
