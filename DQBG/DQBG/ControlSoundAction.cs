@@ -9,6 +9,9 @@ namespace DQBG
 		public static readonly DependencyProperty SourceProperty =
 			DependencyProperty.Register("Source", typeof(Uri), typeof(ControlSoundAction), new PropertyMetadata(OnSourceChanged));
 
+		public static readonly DependencyProperty SourceKeyProperty =
+			DependencyProperty.Register("SourceKey", typeof(string), typeof(ControlSoundAction), new PropertyMetadata(OnSourceChanged));
+
 		public static readonly DependencyProperty ControlTypeProperty =
 			DependencyProperty.Register("ControlType", typeof(SoundControlType), typeof(ControlSoundAction), new PropertyMetadata(SoundControlType.Play));
 
@@ -19,6 +22,13 @@ namespace DQBG
 		{
 			get { return (Uri)GetValue(SourceProperty); }
 			set { SetValue(SourceProperty, value); }
+		}
+
+		// 同一の音源を複数のインスタンスで利用する場合に設定します。
+		public string SourceKey
+		{
+			get { return (string)GetValue(SourceKeyProperty); }
+			set { SetValue(SourceKeyProperty, value); }
 		}
 
 		public SoundControlType ControlType
@@ -34,23 +44,30 @@ namespace DQBG
 		}
 
 		static readonly Dictionary<string, MediaPlayer> PlayerMap = [];
+		string MapKey => string.IsNullOrWhiteSpace(SourceKey) ? Source.OriginalString : SourceKey;
 
 		static void OnSourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 		{
-			var uri = (Uri)e.NewValue;
-			if (PlayerMap.ContainsKey(uri.OriginalString)) return;
+			if (sender is ControlSoundAction action) action.OnSourceChanged(e);
+		}
+
+		void OnSourceChanged(DependencyPropertyChangedEventArgs e)
+		{
+			if (Source == null) return;
+			var mapKey = MapKey;
+			if (PlayerMap.ContainsKey(mapKey)) return;
 
 			var player = new MediaPlayer();
 			// この方法では雑音が出ます。
 			//player.MediaEnded += (_, _) => player.Stop();
 			player.Volume = 0;
-			player.Open(uri);
-			PlayerMap[uri.OriginalString] = player;
+			player.Open(Source);
+			PlayerMap[mapKey] = player;
 		}
 
 		protected override void Invoke(object parameter)
 		{
-			var player = PlayerMap[Source.OriginalString];
+			var player = PlayerMap[MapKey];
 			switch (ControlType)
 			{
 				case SoundControlType.Play:
