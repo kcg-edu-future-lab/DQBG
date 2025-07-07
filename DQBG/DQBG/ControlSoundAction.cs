@@ -18,6 +18,9 @@ namespace DQBG
 		public static readonly DependencyProperty VolumeProperty =
 			DependencyProperty.Register("Volume", typeof(double), typeof(ControlSoundAction), new PropertyMetadata(0.5));
 
+		public static readonly DependencyProperty IsRepeatingProperty =
+			DependencyProperty.Register("IsRepeating", typeof(bool), typeof(ControlSoundAction), new PropertyMetadata(false));
+
 		public Uri Source
 		{
 			get { return (Uri)GetValue(SourceProperty); }
@@ -43,7 +46,14 @@ namespace DQBG
 			set { SetValue(VolumeProperty, value); }
 		}
 
+		public bool IsRepeating
+		{
+			get { return (bool)GetValue(IsRepeatingProperty); }
+			set { SetValue(IsRepeatingProperty, value); }
+		}
+
 		static readonly Dictionary<string, MediaPlayer> PlayerMap = [];
+		static readonly HashSet<MediaPlayer> RepeatingPlayers = [];
 		string MapKey => string.IsNullOrWhiteSpace(SourceKey) ? Source.OriginalString : SourceKey;
 
 		static void OnSourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
@@ -73,6 +83,19 @@ namespace DQBG
 				case SoundControlType.Play:
 					player.Stop();
 					player.Volume = Volume;
+					if (IsRepeating ^ RepeatingPlayers.Contains(player))
+					{
+						if (IsRepeating)
+						{
+							player.MediaEnded += RepeatMedia;
+							RepeatingPlayers.Add(player);
+						}
+						else
+						{
+							player.MediaEnded -= RepeatMedia;
+							RepeatingPlayers.Remove(player);
+						}
+					}
 					player.Play();
 					break;
 				case SoundControlType.Stop:
@@ -89,6 +112,12 @@ namespace DQBG
 				default:
 					break;
 			}
+		}
+
+		void RepeatMedia(object sender, EventArgs e)
+		{
+			var player = (MediaPlayer)sender;
+			player.Position = TimeSpan.Zero;
 		}
 	}
 
