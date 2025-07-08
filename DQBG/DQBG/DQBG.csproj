@@ -5,12 +5,12 @@
     <TargetFramework>net8.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-    <Version>1.1.4</Version>
+    <Version>1.1.5</Version>
     <AssemblyTitle>DQBG: DQ'S BATTLEGROUNDS</AssemblyTitle>
     <Product>KTools</Product>
     <Authors>Keiho Sakapon</Authors>
     <Copyright>© 2025 Keiho Sakapon</Copyright>
-    <PackageReleaseNotes>The first release.</PackageReleaseNotes>
+    <PackageReleaseNotes>Improves sound.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
