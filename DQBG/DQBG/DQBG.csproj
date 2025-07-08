@@ -5,12 +5,12 @@
     <TargetFramework>net8.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-    <Version>1.0.3</Version>
+    <Version>1.1.5</Version>
     <AssemblyTitle>DQBG: DQ'S BATTLEGROUNDS</AssemblyTitle>
     <Product>KTools</Product>
     <Authors>Keiho Sakapon</Authors>
     <Copyright>© 2025 Keiho Sakapon</Copyright>
-    <PackageReleaseNotes>The first release.</PackageReleaseNotes>
+    <PackageReleaseNotes>Improves sound.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -19,6 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
     <PackageReference Include="ReactiveProperty" Version="9.6.0" />
   </ItemGroup>
 
@@ -26,10 +27,9 @@
     <None Update="Images\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Remove="Sounds\**" />
-    <Content Include="Sounds\**">
+    <None Update="Sounds\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
     <None Update="Characters.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
