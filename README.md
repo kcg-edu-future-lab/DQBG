@@ -6,7 +6,7 @@ DQ 的な闘技場です。
 
 サウンドあり
 
-https://github.com/user-attachments/assets/8c1aca0e-18cb-434c-951a-e6dd51ded950
+https://github.com/user-attachments/assets/03eadbdd-d14a-40d1-b76e-35af80c63fac
 
 ## Usage
 - [zip フォルダー](./DQBG/DQBG/zip) から最新版の `DQBG-x.y.z.zip` をダウンロードして展開し、その中の `DQBG.exe` を実行します。
@@ -19,6 +19,7 @@ https://github.com/user-attachments/assets/8c1aca0e-18cb-434c-951a-e6dd51ded950
 
 ## Release Notes
 - **v1.0.3** The first release.
+- **v1.1.5** Improves sound.
 
 ## Third-Party Libraries
 - [Reactive Extensions](https://github.com/dotnet/reactive)
